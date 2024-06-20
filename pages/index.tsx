@@ -1,18 +1,24 @@
 // pages/index.tsx
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { createUser } from './utils/user';
 
 const Home = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const router = useRouter();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (name && email) {
-      localStorage.setItem('userName', name);
-      localStorage.setItem('userEmail', email);
-      router.push('/game');
+      const userData = { name, email };
+      try {
+        const response = await createUser(userData);
+        localStorage.setItem('userId', String(response.id));
+        router.push('/game');
+      } catch (e: any) {
+        alert('Error creating user');
+      }
     }
   };
 
