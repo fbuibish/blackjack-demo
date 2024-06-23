@@ -1,4 +1,25 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+// next.config.mjs
+import withSourceMaps from '@zeit/next-source-maps';
+import withBundleAnalyzer from '@next/bundle-analyzer';
 
-export default nextConfig;
+const isProd = process.env.NODE_ENV === 'production';
+
+const nextConfig = {
+  webpack(config, options) {
+    if (!options.isServer) {
+      config.devtool = isProd ? 'source-map' : 'eval-source-map';
+    }
+
+    config.module.rules.push({
+      test: /\.js$/,
+      enforce: 'pre',
+      use: ['source-map-loader'],
+    });
+
+    return config;
+  },
+};
+
+export default withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})(withSourceMaps(nextConfig));

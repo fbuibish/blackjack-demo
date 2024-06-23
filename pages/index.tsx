@@ -24,7 +24,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-2xl font-bold mb-6">Welcome to the Blackjack Demo</h1>
+      <img src="/warroom_logo.svg" width='350' />
       <form onSubmit={handleSubmit} className="flex flex-col w-80">
         <label htmlFor="name" className="mb-2">Name:</label>
         <input
