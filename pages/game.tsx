@@ -19,6 +19,7 @@ const Game = () => {
   const [wager, setWager] = useState<number>(0);
   const router = useRouter();
   const { aiAssisted } = router.query;
+  let timerInterval: any;
 
   useEffect(() => {
     const userId = localStorage.getItem('userId');
@@ -26,17 +27,7 @@ const Game = () => {
       startGame(parseInt(userId, 10), aiAssisted === 'true');
     }
 
-    const interval = setInterval(() => {
-      setTimer((prevTimer) => {
-        if (prevTimer < 1) {
-          clearInterval(interval);
-          handleEndRound();
-          return 0;
-        }
-        return prevTimer - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
+    return () => clearInterval(timerInterval);
   }, []);
 
   useEffect(() => {
@@ -54,6 +45,16 @@ const Game = () => {
 
   const startGame = async (userId: number, aiAssisted: boolean) => {
     startNewRound(userId, aiAssisted);
+    timerInterval = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer < 1) {
+          clearInterval(timerInterval);
+          handleEndRound();
+          return 0;
+        }
+        return prevTimer - 1;
+      });
+    }, 1000);
   };
 
   const handlePlayerAction = (action: string) => {
@@ -153,7 +154,11 @@ const Game = () => {
             <div>
             <div className="flex justify-center game-board">
               <div>
-                <button onClick={() => handlePlayerReady() }  className="p-2 bg-green-500 text-white rounded hover:bg-green-700 m-2 deal-btn">Deal</button>
+                {
+                  timer > 0 ?
+                  <button onClick={() => handlePlayerReady() }  className="p-2 bg-green-500 text-white rounded hover:bg-green-700 m-2 deal-btn">Deal</button>
+                  : <button onClick={() => handleEndRound() }  className="p-2 bg-green-500 text-white rounded hover:bg-green-700 m-2 done-btn">End Round</button>
+                }
               </div>
             </div>
               <div className="text-2xl mb-4">Wager: {wager}</div>
@@ -247,7 +252,7 @@ const Game = () => {
         <div className="text-xl strategy-recs">
           {
             gameState.aiSuggestions.map((ai) => (
-              <div>{ai.aiName}: {ai.reccommendation}</div>
+              <div key={ai.aiName}>{ai.aiName}: {ai.reccommendation}</div>
             ))
           }
         </div>

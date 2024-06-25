@@ -318,3 +318,7 @@ html, body {
 .ai-stats-section td.bad-stat {
   color: red;
 }
+
+.done-btn {
+  background-color: rgb(130, 9, 9);
+}
