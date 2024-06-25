@@ -12,6 +12,7 @@ const Game = () => {
     stack: 1000,
     availableActions: ['placeWager'],
     activePlayerHandId: null,
+    aiSuggestion: '',
     finishedHands: [],
   });
   const [wager, setWager] = useState<number>(0);
@@ -187,6 +188,9 @@ const Game = () => {
                     Split
                   </button>
                 )}
+                {gameState.aiSuggestion &&
+                  <div style={{marginTop: 12}}>AI Suggests: {gameState.aiSuggestion}</div>
+                }
               </div>
             )
           }
