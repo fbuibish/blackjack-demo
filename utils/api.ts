@@ -46,8 +46,8 @@ export const getUsers = async (): Promise<User[]> => {
   return response.data.data;
 };
 
-export const getRounds = async (): Promise<Round[]> => {
+export const getRounds = async (): Promise<{ rounds: Round[], stats: Record<string, any> }> => {
   const response = await axios.get(`${API_BASE_URL}/api/rounds/`);
-  return response.data.rounds;
+  return response.data;
 }
 

@@ -97,10 +97,13 @@ const Game = () => {
     }
   };
 
-  const renderSVGCard = (card: Card, hidden = false) => {
+  const renderSVGCard = (card: Card, hidden: boolean) => {
     const suitName = card.suit.toLowerCase();
-    let cardName = hidden ? `back-black` : `${suitName}_${card.value}`;
-    if (card.value === 1) {
+    let cardName = `${suitName}_${card.value}`;
+    if (hidden) {
+      cardName = `back-black`;
+    }
+    else if (card.value === 1) {
       cardName = `${suitName}_1`;
     } else if (card.value === 11) {
       cardName = `${suitName}_jack`;
@@ -113,11 +116,13 @@ const Game = () => {
     return <img width="169" src={href} alt="" />;
   };
 
-  const renderCard = (card: Card, hidden = false) => (
-    <div key={`${card.value}-${card.suit}`} className="card">
-      {renderSVGCard(card, hidden)}
-    </div>
-  );
+  const renderCard = (card: Card, hidden = false) => {
+    return (
+      <div key={`${card.value}-${card.suit}`} className="card">
+        {renderSVGCard(card, hidden)}
+      </div>
+    );
+  }
 
   const renderCards = (cards: Card[], hiddenIndex = -1, size: 'sm' | 'lg' = 'lg') => (
     <div className={`flex cards-in-play cards-${size}`}>

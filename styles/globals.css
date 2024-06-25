@@ -245,12 +245,18 @@ html, body {
 }
 
 .leaderboard-page {
-  width: 600px;
+  width: 1200px;
   margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.leaderboard-table-section {
+  width: 600px;
   text-align: center;
 }
 
-.leaderboard-table {
+.leaderboard-page table {
   width: 100%;
 }
 
@@ -285,4 +291,30 @@ html, body {
   bottom: 150px;
   background-color: #f3cd74;
   color: #36454f;
+}
+
+.ai-stats-section {
+  width: 500px;
+  text-align: center;
+}
+
+.ai-stats-section table {
+  font-size: 24px;
+}
+
+.ai-stats-section tbody tr {
+  border-color: lightgray;
+  border-top: 1px;
+  border-style: solid;
+}
+
+.ai-stats-section td {
+  padding: 10px 0;
+}
+
+.ai-stats-section td.good-stat {
+  color: green;
+}
+.ai-stats-section td.bad-stat {
+  color: red;
 }
