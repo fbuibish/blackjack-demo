@@ -131,7 +131,7 @@ const Game = () => {
 
   return (
     <>
-      <div className="page-header">
+      <div className="page-header s">
         <img style={{margin: 'auto'}} src="/warroom_logo.svg" width='200' />
       </div>
       <div className="flex md:flex-row items-center items-start justify-center bg-green-900 min-h-screen p-6">
