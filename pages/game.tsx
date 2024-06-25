@@ -12,29 +12,31 @@ const Game = () => {
     stack: 1000,
     availableActions: ['placeWager'],
     activePlayerHandId: null,
-    aiSuggestion: '',
+    aiSuggestions: [],
     finishedHands: [],
+    aiAssisted: false,
   });
   const [wager, setWager] = useState<number>(0);
   const router = useRouter();
+  const { aiAssisted } = router.query;
 
   useEffect(() => {
     const userId = localStorage.getItem('userId');
     if (userId) {
-      startGame(parseInt(userId, 10), false);
+      startGame(parseInt(userId, 10), aiAssisted === 'true');
     }
 
-    // const interval = setInterval(() => {
-    //   setTimer((prevTimer) => {
-    //     if (prevTimer === 1) {
-    //       clearInterval(interval);
-    //       handleEndRound();
-    //       return 0;
-    //     }
-    //     return prevTimer - 1;
-    //   });
-    // }, 1000);
-    // return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer < 1) {
+          clearInterval(interval);
+          handleEndRound();
+          return 0;
+        }
+        return prevTimer - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -64,7 +66,7 @@ const Game = () => {
   const handleEndRound = () => {
     if (gameState.roundId) {
       endRound(gameState.roundId);
-      router.push(`/recap/${gameState.roundId}`);
+      router.push(`/recap?roundId=${gameState.roundId}`);
     }
   };
 
@@ -76,6 +78,10 @@ const Game = () => {
     } else {
       alert('Insufficient funds for this bet.');
     }
+  };
+
+  const clearBet = () => {
+    setWager(0);
   };
 
   const handlePlayerReady = () => {
@@ -115,7 +121,12 @@ const Game = () => {
 
   const renderCards = (cards: Card[], hiddenIndex = -1, size: 'sm' | 'lg' = 'lg') => (
     <div className={`flex cards-in-play cards-${size}`}>
-      {cards.map((card, index) => renderCard(card, index === hiddenIndex))}
+      {
+        cards.map((card, index) => {
+          const shouldHide = index === hiddenIndex;
+          return renderCard(card, shouldHide)
+        })
+      }
     </div>
   );
 
@@ -124,10 +135,6 @@ const Game = () => {
       ? gameState.playerHands.find(ph => ph.id === gameState.activePlayerHandId)
       : null;
     return playerCardGroup ? playerCardGroup.cards : [];
-  };
-
-  const getDealerHand = () => {
-    return (gameState.dealerHand && gameState.dealerHand.cards) || [];
   };
 
   return (
@@ -146,6 +153,7 @@ const Game = () => {
             </div>
               <div className="text-2xl mb-4">Wager: {wager}</div>
               <div>
+                <button onClick={() => clearBet()} className="p-2 bg-green-500 text-white rounded hover:bg-green-700 m-2 chips-btn chip-white">0</button>
                 <button onClick={() => incrementBet(50)} className="p-2 bg-green-500 text-white rounded hover:bg-green-700 m-2 chips-btn chip-yellow">50</button>
                 <button onClick={() => incrementBet(100)} className="p-2 bg-green-500 text-white rounded hover:bg-green-700 m-2 chips-btn chip-blue">100</button>
                 <button onClick={() => incrementBet(200)} className="p-2 bg-green-500 text-white rounded hover:bg-green-700 m-2 chips-btn chip-black">200</button>
@@ -154,10 +162,12 @@ const Game = () => {
             </div>
           ) : (
             <div className="flex justify-center mb-4 game-board" id="game-board">
-              <div className="p-4">
-                <h2 className="font-bold">Dealer Hand</h2>
-                {renderCards(getDealerHand(), 1)} {/* Hide the second card */}
-              </div>
+              { gameState.dealerHand && gameState.dealerHand.cards &&
+                <div className="p-4">
+                  <h2 className="font-bold">Dealer Hand</h2>
+                  {renderCards(gameState.dealerHand.cards, 1)} {/* Hide the second card */}
+                </div>
+              }
               <div className="p-4">
                 <h2 className="font-bold">Player Hand</h2>
                 {renderCards(getPlayerHand())}
@@ -188,9 +198,6 @@ const Game = () => {
                     Split
                   </button>
                 )}
-                {gameState.aiSuggestion &&
-                  <div style={{marginTop: 12}}>AI Suggests: {gameState.aiSuggestion}</div>
-                }
               </div>
             )
           }
@@ -208,9 +215,19 @@ const Game = () => {
             </thead>
             <tbody>
               {gameState.finishedHands.map((playerHand, index) => {
+                let chipResult = 'push';
+                let handText = '0'
+                if (playerHand.stackDiff > 0) {
+                  handText = `+${playerHand.stackDiff}`;
+                  chipResult = 'gain';
+                } else if (playerHand.stackDiff < 0) {
+                  handText = `${playerHand.stackDiff}`;
+                  chipResult = 'loss';
+                };
+
                 return (
                   <tr key={playerHand.id}>
-                    <td className="border px-4 py-2">{playerHand.stackDiff > 0 ? `+${playerHand.stackDiff}` : playerHand.stackDiff}</td>
+                    <td className={`border px-4 py-2 chip-${chipResult}`}>{handText}</td>
                     <td className="border px-4 py-2">{renderCards(playerHand.cards, -1, 'sm')}</td>
                     <td className="border px-4 py-2">{renderCards(playerHand.dealerHand.cards, -1, 'sm')}</td>
                   </tr>)
@@ -219,7 +236,17 @@ const Game = () => {
           </table>
         </div>
       </div>
-      <div className="text-2xl mb-4 timer-header">Time Left: {timer}</div>
+        <div className="text-2xl mb-4 timer-header">Time Left: {timer}</div>
+      {
+        gameState.aiAssisted &&
+        <div className="text-xl strategy-recs">
+          {
+            gameState.aiSuggestions.map((ai) => (
+              <div>{ai.aiName}: {ai.reccommendation}</div>
+            ))
+          }
+        </div>
+      }
     </>
   );
 };

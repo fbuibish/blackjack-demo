@@ -17,8 +17,11 @@ export interface User {
 }
 
 export interface Round {
-  finalStack: number;
-  hands: PlayerHand[]
+  id: number;
+  user: { name: string };
+  aiAssisted: boolean;
+  stack: number;
+  hands: PlayerHand[];
 }
 
 const API_BASE_URL = process.env.API_URL;
@@ -43,8 +46,8 @@ export const getUsers = async (): Promise<User[]> => {
   return response.data.data;
 };
 
-export const getRound = async (roundId: number): Promise<Round> => {
-  const response = await axios.get(`${API_BASE_URL}/api/round/${roundId}`);
-  return response.data.data;
+export const getRounds = async (): Promise<Round[]> => {
+  const response = await axios.get(`${API_BASE_URL}/api/rounds/`);
+  return response.data.rounds;
 }
 

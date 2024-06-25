@@ -1,50 +1,58 @@
 // pages/recap.tsx
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getRound, Round } from '../utils/api';
+import Link from 'next/link';
+import { getRounds, Round } from '../utils/api';
 
 const Recap = () => {
-  const [roundDetails, setRoundDetails] = useState<Round | null>(null);
+  const [rounds, setRounds] = useState<Round[]>([]);
   const router = useRouter();
   const { roundId } = router.query;
 
   useEffect(() => {
     if (roundId) {
-      getRound(parseInt(roundId as string))
-        .then((data) => setRoundDetails(data))
+      getRounds()
+        .then((data) => {
+          console.log('Setting round details', data)
+          setRounds(data)
+        })
         .catch((error) => console.error('Error fetching round details:', error));
     }
   }, [roundId]);
 
-  if (!roundDetails) {
+  if (!rounds.length) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div>
-      <h1>Round Recap</h1>
-      <div>Final Stack: {roundDetails.finalStack}</div>
-      <h2>Hands</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Hand</th>
-            <th>Outcome</th>
-            <th>Players Final Hand</th>
-            <th>Dealers Final Hand</th>
-          </tr>
-        </thead>
-        <tbody>
-          {roundDetails.hands.map((hand, index) => (
-            <tr key={hand.id}>
-              <td>{index + 1}</td>
-              <td>{hand.outcome}</td>
-              {/* <td>{hand.filter(group => !group.isSplit).map(group => JSON.parse(group.cards).map((card: any) => `${card.value}${card.suit}`)).join(', ')}</td> */}
-              {/* <td>{hand.cardGroups.filter(group => group.isSplit).map(group => JSON.parse(group.cards).map((card: any) => `${card.value}${card.suit}`)).join(', ')}</td> */}
+    <div className='leaderboard-page'>
+      <h1 style={{fontSize: '48px'}}>Leaderboard</h1>
+        <table className='leaderboard-table'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Stack</th>
+              <th>Hands Played</th>
+              <th>AI Assisted</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          { 
+            rounds.map((round) => (
+              <tr key={round.id} className={`${round.id}` === roundId ? 'background-primary' : ''}>
+                <td>{round.user.name}</td>
+                <td>{round.stack}</td>
+                <td>{round.hands.length}</td>
+                <td>{round.aiAssisted ? 'Yes' : ''}</td>
+              </tr>
+            ))
+          }
+          </tbody>
+        </table>
+        <Link className='anchor-button new-round-btn' href="/game?aiAssisted=true">
+          Try with AI
+        </Link>
+        <Link className='anchor-button new-player-btn' href='/'>New Player</Link>
     </div>
   );
 };

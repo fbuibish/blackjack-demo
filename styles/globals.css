@@ -144,7 +144,7 @@ html, body {
 }
 
 .game-board {
-  min-height: 500px;
+  min-height: 450px;
   flex-direction: column;
 }
 
@@ -205,6 +205,12 @@ html, body {
   background-color: rgb(90, 0, 90);
 }
 
+.chips-btn.chip-white {
+  background-color: #F9FaFd;
+  color: #36454f;
+  border: 2px solid 
+}
+
 .deal-btn {
   background-color: green;
   width: 125px;
@@ -220,4 +226,63 @@ html, body {
   height: 130px;
   border-radius: 50%;
   margin: 0 18px;
+}
+
+.chip-gain {
+  color: green;
+}
+
+.chip-loss {
+  color: red;
+}
+
+.strategy-recs {
+  position: fixed;
+  border: 2px solid black;
+  bottom: 12px;
+  left: 12px;
+  padding: 8px;
+}
+
+.leaderboard-page {
+  width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.leaderboard-table {
+  width: 100%;
+}
+
+.leaderboard-table td {
+  padding: 6px 0;
+}
+
+.background-primary {
+  background-color: #f3cd74;
+}
+
+.anchor-button {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Optional: also centers text horizontally */
+  text-decoration: none;
+  position: fixed;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.new-round-btn {
+  left: 12px;
+  bottom: 12px;
+  background-color: green;
+  color: white;
+}
+
+.new-player-btn {
+  left: 12px;
+  bottom: 150px;
+  background-color: #f3cd74;
+  color: #36454f;
 }

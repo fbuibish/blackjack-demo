@@ -10,8 +10,14 @@ export interface GameState {
   stack: number;
   availableActions: string[];
   activePlayerHandId: number | null;
-  aiSuggestion: string;
+  aiSuggestions: AiReccommendation[];
   finishedHands: FinishedHand[];
+  aiAssisted: boolean;
+}
+
+interface AiReccommendation {
+  reccommendation: string;
+  aiName: string;
 }
 
 interface FinishedHand extends PlayerHand {
