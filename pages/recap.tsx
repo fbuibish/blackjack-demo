@@ -30,8 +30,8 @@ const Recap = () => {
           <tr>
             <th>Hand</th>
             <th>Outcome</th>
-            <th>Player's Final Hand</th>
-            <th>Dealer's Final Hand</th>
+            <th>Players Final Hand</th>
+            <th>Dealers Final Hand</th>
           </tr>
         </thead>
         <tbody>
@@ -39,8 +39,8 @@ const Recap = () => {
             <tr key={hand.id}>
               <td>{index + 1}</td>
               <td>{hand.outcome}</td>
-              <td>{hand.cardGroups.filter(group => !group.isSplit).map(group => JSON.parse(group.cards).map((card: any) => `${card.value}${card.suit}`)).join(', ')}</td>
-              <td>{hand.cardGroups.filter(group => group.isSplit).map(group => JSON.parse(group.cards).map((card: any) => `${card.value}${card.suit}`)).join(', ')}</td>
+              {/* <td>{hand.filter(group => !group.isSplit).map(group => JSON.parse(group.cards).map((card: any) => `${card.value}${card.suit}`)).join(', ')}</td> */}
+              {/* <td>{hand.cardGroups.filter(group => group.isSplit).map(group => JSON.parse(group.cards).map((card: any) => `${card.value}${card.suit}`)).join(', ')}</td> */}
             </tr>
           ))}
         </tbody>
