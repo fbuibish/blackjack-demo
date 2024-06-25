@@ -10,6 +10,7 @@ export interface GameState {
   stack: number;
   availableActions: string[];
   activePlayerHandId: number | null;
+  aiSuggestion: string;
   finishedHands: FinishedHand[];
 }
 
