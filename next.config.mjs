@@ -10,15 +10,15 @@ const nextConfig = {
     WEBSOCKET_URL: process.env.WEBSOCKET_URL,
   },
   webpack(config, options) {
-    if (!options.isServer) {
-      config.devtool = isProd ? 'source-map' : 'eval-source-map';
-    }
+    // if (!options.isServer) {
+    //   config.devtool = isProd ? 'source-map' : 'eval-source-map';
+    // }
 
-    config.module.rules.push({
-      test: /\.js$/,
-      enforce: 'pre',
-      use: ['source-map-loader'],
-    });
+    // config.module.rules.push({
+    //   test: /\.js$/,
+    //   enforce: 'pre',
+    //   use: ['source-map-loader'],
+    // });
 
     return config;
   },
