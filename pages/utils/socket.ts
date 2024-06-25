@@ -1,6 +1,6 @@
 // src/utils/socket.ts
 import { io } from 'socket.io-client';
-
+// @ts-ignore
 const socket = io(process.env.WEBSOCKET_URL);
 
 export interface GameState {
