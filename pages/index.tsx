@@ -1,7 +1,7 @@
 // pages/index.tsx
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { createUser } from './utils/api';
+import { createUser } from '../utils/api';
 
 const Home = () => {
   const [name, setName] = useState<string>('');

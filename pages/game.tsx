@@ -1,7 +1,7 @@
 // pages/game.tsx
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { initializeSocket, startNewRound, playerAction, endRound, Card, GameState } from './utils/socket';
+import { initializeSocket, startNewRound, playerAction, endRound, Card, GameState } from '../utils/socket';
 
 const Game = () => {
   const [timer, setTimer] = useState<number>(60);

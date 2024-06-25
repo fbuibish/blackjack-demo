@@ -1,7 +1,7 @@
 // pages/recap.tsx
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getRound, Round } from './utils/api';
+import { getRound, Round } from '../utils/api';
 
 const Recap = () => {
   const [roundDetails, setRoundDetails] = useState<Round | null>(null);
