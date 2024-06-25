@@ -1,7 +1,7 @@
 // pages/index.tsx
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { createUser } from './utils/user';
+import { createUser } from './utils/api';
 
 const Home = () => {
   const [name, setName] = useState<string>('');
@@ -23,7 +23,7 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 hero">
       <img src="/warroom_logo.svg" width='350' />
       <form onSubmit={handleSubmit} className="flex flex-col w-80">
         <label htmlFor="name" className="mb-2">Name:</label>

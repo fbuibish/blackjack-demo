@@ -3,6 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /* styles/global.css */
 html, body {
   margin: 0;
@@ -10,6 +11,7 @@ html, body {
   box-sizing: border-box;
   background-color: #F9FaFd; /* Dark green color */
   color: #36454f;
+  font-family: 'Montserrat';
 }
 
 .flex {
@@ -137,8 +139,13 @@ html, body {
   color: white;
 }
 
+.text-white {
+  color: white;
+}
+
 .game-board {
-  min-width: 600px;
+  min-height: 500px;
+  flex-direction: column;
 }
 
 .game-board .actor-hand {
@@ -148,6 +155,9 @@ html, body {
 .timer-header {
   text-align: left;
   font-size: 36px;
+  position: fixed;
+  top: 24px;
+  left: 24px;
 }
 
 .cards-in-play {
@@ -159,4 +169,55 @@ html, body {
 }
 .cards-in-play.cards-lg img {
   width: 100px;
+}
+
+.hero {
+  max-width: 500px;
+  min-height: 100vh;
+  margin: auto;
+  align-items: center;
+}
+
+.felt-panel {
+  width: 900px;
+}
+
+.chips-btn {
+  border-radius: 50%;
+  height: 75px;
+  width: 75px;
+  margin: 0 12px;
+}
+
+.chips-btn.chip-yellow {
+  background-color: rgb(141, 141, 0);
+}
+
+.chips-btn.chip-blue {
+  background-color: rgb(0, 0, 147);
+}
+
+.chips-btn.chip-black {
+  background-color: rgb(32, 32, 32);
+}
+
+.chips-btn.chip-purple {
+  background-color: rgb(90, 0, 90);
+}
+
+.deal-btn {
+  background-color: green;
+  width: 125px;
+  height: 50px;
+}
+
+.stack-count {
+  margin-top: 24px;
+}
+
+.action-btn {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  margin: 0 18px;
 }

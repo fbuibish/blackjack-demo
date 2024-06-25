@@ -1,58 +1,61 @@
 // src/utils/socket.ts
 import { io } from 'socket.io-client';
 
-const socket = io('ws://localhost:3000');
+const socket = io(process.env.WEBSOCKET_URL);
+
+export interface GameState {
+  roundId: number | null;
+  playerHands: PlayerHand[];
+  dealerHand: DealerHand | null;
+  stack: number;
+  availableActions: string[];
+  activePlayerHandId: number | null;
+  finishedHands: FinishedHand[];
+}
+
+interface FinishedHand extends PlayerHand {
+  dealerHand: DealerHand;
+}
 
 export interface Card {
   value: number;
   suit: string;
 }
 
-export const initializeSocket = (setGameState: (state: any) => void) => {
+export interface DealerHand {
+  cards: Card[];
+}
+
+export interface PlayerHand {
+  id: number;
+  wager: number;
+  stackDiff: number;
+  outcome: string;
+  cards: Card[];
+}
+
+export const initializeSocket = (updateGameState: (state: GameState) => void): void => {
   socket.on('connect', () => {
-    console.log('Connected to the server');
+    console.log('Connected to server');
   });
 
-  socket.on('roundStarted', (data) => {
-    setGameState(data);
-  });
-
-  socket.on('cardDealt', (data) => {
-    setGameState((prevState: any) => ({
-      ...prevState,
-      [data.recipient + 'Hand']: [...prevState[data.recipient + 'Hand'], data.card],
-    }));
-  });
-
-  socket.on('handResult', (data) => {
-    setGameState((prevState: any) => ({
-      ...prevState,
-      outcome: data.outcome,
-      stack: data.stack,
-    }));
-  });
-
-  socket.on('handStarted', (data) => {
-    setGameState({
-      playerHand: data.playerHand,
-      dealerHand: data.dealerHand,
-      outcome: null,
-    });
+  socket.on('gameState', (gameState: GameState) => {
+    updateGameState(gameState);
   });
 
   socket.on('disconnect', () => {
-    console.log('Disconnected from the server');
+    console.log('Disconnected from server');
   });
 };
 
-export const startNewRound = (userId: number, aiAssisted: boolean) => {
+export const startNewRound = (userId: number, aiAssisted: boolean): void => {
   socket.emit('startRound', { userId, aiAssisted });
 };
 
-export const playerAction = (roundId: number, action: string) => {
-  socket.emit('playerAction', { roundId, action });
+export const playerAction = (roundId: number, action: string, wager: number): void => {
+  socket.emit('playerAction', { roundId, action, wager });
 };
 
-export const nextHand = (roundId: number, wager: number) => {
-  socket.emit('nextHand', { roundId, wager });
+export const endRound = (roundId: number): void => {
+  socket.emit('endRound', { roundId });
 };

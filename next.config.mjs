@@ -5,6 +5,10 @@ import withBundleAnalyzer from '@next/bundle-analyzer';
 const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig = {
+  env: {
+    API_URL: process.env.API_URL,
+    WEBSOCKET_URL: process.env.WEBSOCKET_URL,
+  },
   webpack(config, options) {
     if (!options.isServer) {
       config.devtool = isProd ? 'source-map' : 'eval-source-map';
