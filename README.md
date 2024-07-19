@@ -4,6 +4,12 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Run the backend first, it should start on port 3000
 
+Second for local development created a .env file in the repo with
+```
+API_URL="http://localhost:3000"
+WEBSOCKET_URL="ws://localhost:3000"
+```
+
 Second, run the development server:
 
 ```bash
@@ -16,7 +22,7 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3001) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
