@@ -10,7 +10,7 @@ API_URL="http://localhost:3000"
 WEBSOCKET_URL="ws://localhost:3000"
 ```
 
-Second, run the development server:
+Third, run the development server:
 
 ```bash
 npm run dev
