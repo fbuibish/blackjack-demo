@@ -13,6 +13,10 @@ WEBSOCKET_URL="ws://localhost:3000"
 Third, run the development server:
 
 ```bash
+npm i
+
+# then
+
 npm run dev
 # or
 yarn dev
