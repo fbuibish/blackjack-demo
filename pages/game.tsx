@@ -250,11 +250,19 @@ const Game = () => {
       {
         gameState.aiAssisted &&
         <div className="text-xl strategy-recs">
-          {
-            gameState.aiSuggestions.map((ai) => (
-              <div key={ai.aiName}>{ai.aiName}: {ai.reccommendation}</div>
-            ))
-          }
+          <div>AI Strategies</div>
+          <table style={{width: '100%'}}>
+            <tbody>
+              {
+                gameState.aiSuggestions.map((ai) => (
+                  <tr style={{ margin: '8px 0'}} key={ai.aiName}>
+                    <td>{ai.aiName}:</td>
+                    <td className='rec'><b>{ai.reccommendation}</b></td>
+                  </tr>
+                ))
+              }
+           </tbody>
+          </table>
         </div>
       }
     </>

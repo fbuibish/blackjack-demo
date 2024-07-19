@@ -238,10 +238,15 @@ html, body {
 
 .strategy-recs {
   position: fixed;
-  border: 2px solid black;
-  bottom: 12px;
+  border: 4px solid black;
+  bottom: 400px;
   left: 12px;
-  padding: 8px;
+  padding: 20px;
+  width: 200px;
+}
+
+.strategy-recs .rec {
+  text-align: right;
 }
 
 .leaderboard-page {
